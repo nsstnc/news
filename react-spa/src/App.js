@@ -1,8 +1,9 @@
 import './App.css';
 import React, {useEffect, useState} from "react";
-import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Link, Navigate} from "react-router-dom";
 import MainPage from './MainPage';
-
+import LoginPage from "./LoginPage";
+import AdminPage from "./AdminPage";
 
 function App() {
 
@@ -33,10 +34,11 @@ function Admin() {
                 setAuthenticated(true);
             } else {
                 console.log(response);
-                window.location.href = '/login';
+
                 throw new Error('Ошибка');
             }
         } catch (error) {
+            window.location.href = '/login';
             console.error('Произошла ошибка:', error);
         }
     };
@@ -47,100 +49,15 @@ function Admin() {
 
     if (authenticated) {
         return (
-            <div>
-                <h2>Добро пожаловать в админ-панель</h2>
-            </div>
+            <AdminPage> </AdminPage>
         );
-    } else {
-        return (
-            <div>
-                <h2>Не удалось войти</h2>
-            </div>
-        )
     }
 }
 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    // переменная для показа модального окна
-    const [showError, setShowError] = useState(false);
-
-
-    const handleSubmit = async (e) => {
-
-
-        e.preventDefault();
-        // Отправка данных на сервер для аутентификации
-
-        await fetch('https://localhost:5001/login', {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({email, password}),
-        }).then(response => {
-            if (!response.ok) {
-                setShowError(true); // Показываем модальное окно
-                console.log(response);
-                throw new Error('Ошибка');
-
-            }
-            // Обработка успешного ответа, если требуется
-            // Обработка успешной аутентификации
-            console.log('Успешная аутентификация!');
-            // Перенаправление на защищенную страницу
-            window.location.href = '/admin_panel';
-        })
-            .catch(error => {
-                // Обработка ошибок
-                console.error('Произошла ошибка:', error);
-                setShowError(true); // Показываем модальное окно
-            });
-
-
-    };
-
     return (
-
-
-        <div class="container">
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="exampleInput1">Nickname</label>
-                    <input type="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                           onChange={(e) => setEmail(e.target.value)}/>
-
-                </div>
-                <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1"
-                           onChange={(e) => setPassword(e.target.value)}/>
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-            </form>
-
-            {/* Модальное окно для отображения ошибки */}
-            <div className="modal" tabIndex="-1" role="dialog" style={{display: showError ? 'block' : 'none'}}>
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Ошибка</h5>
-                        </div>
-                        <div className="modal-body">
-                            Не удалось войти
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal"
-                                    onClick={() => setShowError(false)}>Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    )
-        ;
+        <LoginPage> </LoginPage>
+    );
 }
 
 

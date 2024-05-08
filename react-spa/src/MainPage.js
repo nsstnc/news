@@ -7,7 +7,7 @@ function MainPage({articles, counts, incrementCounts}) {
     return (
         <div className="">
             <div className="header">
-                <a href="/login" className="enter-button">вход</a>
+                <a href="/admin" className="enter-button">Вход</a>
             </div>
 
             <div className="main">
