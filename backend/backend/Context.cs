@@ -6,6 +6,7 @@ namespace backend
 {
     public class Context : DbContext
     {
+        public DbSet<User> Users { get; set; } = null!;
         public DbSet<Article> Articles { get; set; } = null!;
         public Context(DbContextOptions<Context> options)
             : base(options)
@@ -21,6 +22,10 @@ namespace backend
                     new Article { Id = 2, Url = "4.jpeg", Tag = "Спорт", Title = "Заголовок", Subtitle = "Текст" },
                     new Article { Id = 3, Url = "4.jpeg", Tag = "Политика", Title = "Заголовок", Subtitle = "Текст" }
             );
+            modelBuilder.Entity<User>().HasData(
+                        new User { Id = 1, Nickname = "admin", Password = "admin" }
+
+                );
         }
 
     }
