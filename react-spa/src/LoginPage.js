@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import axios from 'axios';
 
 function LoginPage() {
     const [nickname, setNickname] = useState('');
@@ -14,29 +15,28 @@ function LoginPage() {
         e.preventDefault();
         // Отправка данных на сервер для аутентификации
 
-        await fetch('https://localhost:5001/login', {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({nickname, password}),
-        }).then(response => {
-            if (!response.ok) {
-                setShowError(true); // Показываем модальное окно
+        try {
+            const response = await axios.post('https://localhost:5001/login', {
+                nickname,
+                password
+            }, {
+                withCredentials: true
+            });
+
+            if (response.status === 200) {
+                console.log('Успешная аутентификация!');
+                // Перенаправление на защищенную страницу
+                window.location.href = '/admin';
+            } else {
+                setShowError(true);
                 console.log(response);
                 throw new Error('Ошибка');
-
             }
-            // Обработка успешного ответа, если требуется
-            // Обработка успешной аутентификации
-            console.log('Успешная аутентификация!');
-            // Перенаправление на защищенную страницу
-            window.location.href = '/admin';
-            return;
-        })
-            .catch(error => {
-                // Обработка ошибок
-                console.error('Произошла ошибка:', error);
-                setShowError(true); // Показываем модальное окно
-            });
+        } catch (error) {
+            // Обработка ошибок
+            console.error('Произошла ошибка:', error);
+            setShowError(true);
+        }
 
 
     };

@@ -1,6 +1,7 @@
 import './App.css';
 import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Routes, Route, Link, Navigate} from "react-router-dom";
+import axios from 'axios';
 import MainPage from './MainPage';
 import LoginPage from "./LoginPage";
 import AdminPage from "./AdminPage";
@@ -25,16 +26,14 @@ function Admin() {
 
     const checkAuth = async () => {
         try {
-            const response = await fetch('https://localhost:5001/check_auth', {
-                method: 'GET',
-                credentials: 'include',
+            const response = await axios.get('https://localhost:5001/check_auth', {
+                withCredentials: true
             });
-            if (response.ok) {
+            if (response.status === 200) {
                 console.log('Успешная аутентификация!');
                 setAuthenticated(true);
             } else {
                 console.log(response);
-
                 throw new Error('Ошибка');
             }
         } catch (error) {
@@ -71,14 +70,19 @@ function Main() {
 
     // функция получения данных с бэка
     const getApiData = async () => {
-        const response = await fetch(
-            "https://localhost:5001/articles",
-        ).then((response) => response.json());
-        // обновляем массив статей
-        setArticles(response);
-        // обновляем массив счетчиков
-        setCounts(Array(response.length).fill(0));
+        try {
+            const response = await axios.get('https://localhost:5001/articles');
+            // обновляем массив статей
+            setArticles(response.data);
+            // обновляем массив счетчиков
+            setCounts(Array(response.data.length).fill(0));
+        } catch (error) {
+            console.error('Ошибка при получении данных с сервера:', error);
+        }
     };
+
+    
+
 
     useEffect(() => {
         getApiData();
