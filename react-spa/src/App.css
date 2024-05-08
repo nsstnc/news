@@ -8,6 +8,7 @@
   margin: 0;
 }
 
+
 body {
   font-family: "Quicksand", sans-serif;
   display: grid;
@@ -36,6 +37,7 @@ body {
   max-width: 1200px;
   margin-block: 2rem;
   gap: 2rem;
+  height: 100%;
 }
 
 img {
@@ -119,15 +121,3 @@ img:hover {
   margin-top: auto;
 }
 
-.user {
-  display: flex;
-  gap: .5rem;
-}
-
-.user__image {
-  border-radius: 50%;
-}
-
-.user__info > small {
-  color: #666;
-}

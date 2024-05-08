@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\2.jpg",
+      "PackagePath": "staticwebassets\\images\\2.jpg"
+    },
+    {
+      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\4.jpeg",
+      "PackagePath": "staticwebassets\\images\\4.jpeg"
+    },
+    {
+      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\5.jpg",
+      "PackagePath": "staticwebassets\\images\\5.jpg"
+    },
+    {
+      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\6.jpg",
+      "PackagePath": "staticwebassets\\images\\6.jpg"
+    },
+    {
+      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\qr (1).png",
+      "PackagePath": "staticwebassets\\images\\qr (1).png"
+    },
+    {
+      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\scale_1200.jpeg",
+      "PackagePath": "staticwebassets\\images\\scale_1200.jpeg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.backend.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.backend.props",
+      "PackagePath": "build\\backend.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.backend.props",
+      "PackagePath": "buildMultiTargeting\\backend.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.backend.props",
+      "PackagePath": "buildTransitive\\backend.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
