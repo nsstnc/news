@@ -105,8 +105,8 @@ function Login() {
         <div class="container">
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    <label htmlFor="exampleInput1">Nickname</label>
+                    <input type="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                            onChange={(e) => setEmail(e.target.value)}/>
 
                 </div>
