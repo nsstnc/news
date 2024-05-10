@@ -1,14 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Modal from "react-bootstrap/Modal";
+import Form from 'react-bootstrap/Form';
+import ModalForm from "./ModalForm";
+import axios from "axios";
 
-const TableArticles = ({data, setShowing, setShowSubtitle}) => {
+
+const TableArticles = ({data, setShowing, setShowSubtitle, showArticles}) => {
+    // различные состояния для пагинации
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
-
     const lastIndex = currentPage * itemsPerPage;
     const firstIndex = lastIndex - itemsPerPage;
     const currentItems = data.slice(firstIndex, lastIndex);
-
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
     const nextPage = () => {
@@ -27,13 +31,50 @@ const TableArticles = ({data, setShowing, setShowSubtitle}) => {
         setItemsPerPage(value);
     };
 
+    const getDataById = async (id) =>  {
+        try {
+            const response = await axios.post('https://localhost:5001/get_article_by_id', {
+                id
+            }, {
+                withCredentials: true
+            });
+            setItem(response.data.article);
+        } catch (error) {
+            // Обработка ошибок
+            console.error('Произошла ошибка:', error);
+        }
+
+    }
+
+
+
+    // состояния для модального окна формы
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const [adding, setAdding] = useState(true);
+    const [currentId, setCurrentId] = useState(1);
+    const [item, setItem] = useState(null);
+
+    useEffect(() => {
+        getDataById(currentId);
+    }, [currentId]);
+
+
+
     return (
         <div>
+            <ModalForm show={show} handleClose={handleClose} isAdding={adding} showArticles={showArticles} data={item}
+            ></ModalForm>
+
             <caption>Статьи</caption>
-            <button type="button" className="btn btn-success"
-                    style={{float: "left", marginBottom: "10px"}}>Добавить
-            </button>
             <Dropdown>
+                <button onClick={() => {
+                    handleShow();
+                    setAdding(true);
+                }} className="btn btn-success"
+                        style={{float: "left", marginBottom: "10px"}}>Добавить
+                </button>
                 <Dropdown.Toggle variant="" id="dropdown-basic" style={{marginLeft: "10px"}}>
                     Кол-во записей
                 </Dropdown.Toggle>
@@ -99,7 +140,11 @@ const TableArticles = ({data, setShowing, setShowSubtitle}) => {
 
                         </td>
                         <td>
-                            <button type="button" className="btn btn-outline-secondary"
+                            <button onClick={() => {
+                                handleShow();
+                                setAdding(false);
+                                setCurrentId(article.id);
+                            }} type="button" className="btn btn-outline-secondary"
                                     style={{marginRight: "5px"}}>Изменить
                             </button>
                             <button type="button" className="btn btn-outline-danger">Удалить</button>

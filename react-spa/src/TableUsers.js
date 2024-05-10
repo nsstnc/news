@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 
-const TableUsers = ({data}) => {
+const TableUsers = ({data, showArticles}) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -29,14 +29,18 @@ const TableUsers = ({data}) => {
         setItemsPerPage(value);
     };
 
+    // состояния для модального окна формы
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <div>
             <caption>Пользователи</caption>
-            <button type="button" className="btn btn-success"
-                    style={{float: "left", marginBottom: "10px"}}>Добавить
-            </button>
             <Dropdown>
+                <button onClick={handleShow} className="btn btn-success"
+                        style={{float: "left", marginBottom: "10px"}}>Добавить
+                </button>
                 <Dropdown.Toggle variant="" id="dropdown-basic" style={{marginLeft: "10px"}}>
                     Кол-во записей
                 </Dropdown.Toggle>

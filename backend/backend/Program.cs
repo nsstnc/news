@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Security.Claims;
 using Newtonsoft.Json;
+using System.Collections.Immutable;
 
 var builder = WebApplication.CreateBuilder(args);
 Role admin = new Role("admin");
@@ -164,7 +165,7 @@ app.Map("/check_auth", [Authorize] (HttpContext context, Context db) =>
 });
 
 
-app.Map("/admin",  (HttpContext context, Context db) =>
+app.Map("/admin", (HttpContext context, Context db) =>
 {
     List<Article> articles = db.Articles.ToList();
     List<User> users = db.Users.ToList();
@@ -178,6 +179,31 @@ app.Map("/admin",  (HttpContext context, Context db) =>
     return data;
 });
 
+app.Map("/get_article_by_id", async (HttpContext context, Context db) =>
+{
+    // Чтение данных из тела запроса
+    using (StreamReader reader = new StreamReader(context.Request.Body))
+    {
+        string requestBody = await reader.ReadToEndAsync();
+
+        app.Logger.LogCritical($"{requestBody}");
+
+        Item item = JsonConvert.DeserializeObject<Item>(requestBody);
+
+
+        Article article = db.Articles.Find(item.Id);
+
+
+        var data = new
+        {
+            Article = article,
+        };
+
+        return data;
+
+
+    }
+});
 
 
 
@@ -188,3 +214,5 @@ app.Run();
 record class Model(string Nickname, string Password);
 
 record class Role(string Name);
+
+record class Item(int Id);

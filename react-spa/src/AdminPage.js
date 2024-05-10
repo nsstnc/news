@@ -6,10 +6,10 @@ import './AdminPage.css';
 import axios from "axios";
 import TableArticles from "./TableArticles";
 import TableUsers from "./TableUsers";
+import ModalForm from "./ModalForm";
 
 // TODO редактирование статей, удаление, добавление новых
 // TODO возможность добавлять новых пользователей
-// TODO выход из админ-панели
 
 function AdminPage() {
     // массив статей
@@ -23,6 +23,7 @@ function AdminPage() {
 
     // состояние для текущей статьи в модальном окне
     const [showing, setShowing] = useState([]);
+
 
 
     // функция получения данных с бэка
@@ -64,6 +65,11 @@ function AdminPage() {
     return (
         <div>
 
+
+
+
+
+            {/*модальное окно предпросмотра*/}
             <Modal show={showSubtitle} onHide={() => setShowSubtitle(false)}
                    scrollable
                    aria-labelledby="contained-modal-title-vcenter"
@@ -76,9 +82,6 @@ function AdminPage() {
                 <Modal.Body style={{ textAlign: "justify" }}>
                     <img className="article-img" src={"https://localhost:5001/images/" + showing.url}/>
                     {/* Содержимое подзаголовка */}
-                    {showing.subtitle}
-                    {showing.subtitle}
-                    {showing.subtitle}
                     {showing.subtitle}
                 </Modal.Body>
             </Modal>
@@ -101,9 +104,9 @@ function AdminPage() {
 
             <div className="admin_body">
                 {showArticles ? (
-                    <TableArticles data={articles} setShowing={setShowing} setShowSubtitle={setShowSubtitle}></TableArticles>
+                    <TableArticles data={articles} setShowing={setShowing} setShowSubtitle={setShowSubtitle} showArticles={showArticles}></TableArticles>
                 ) : (
-                    <TableUsers data={users}></TableUsers>
+                    <TableUsers data={users} showArticles={showArticles}></TableUsers>
                 )}
             </div>
 
