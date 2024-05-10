@@ -2,11 +2,14 @@ import React, {useEffect, useState} from "react";
 import Modal from 'react-bootstrap/Modal';
 import './AdminPage.css';
 
-import axios from "axios";
 
-// TODO страница админ-панели с возможностью просматривать статьи, редактировать их, удалять, добавлять новые
+import axios from "axios";
+import TableArticles from "./TableArticles";
+import TableUsers from "./TableUsers";
+
+// TODO редактирование статей, удаление, добавление новых
 // TODO возможность добавлять новых пользователей
-// TODO сохранение просмотров в базе данных по id-новости, количество просмотров
+// TODO выход из админ-панели
 
 function AdminPage() {
     // массив статей
@@ -26,13 +29,12 @@ function AdminPage() {
     const getApiData = async () => {
         try {
             const response = await axios.get('https://localhost:5001/admin');
-            console.log(response);
+
 
             // обновляем массив статей
             setArticles(response.data.articles);
             // обновляем массив пользователей
             setUsers(response.data.users);
-
         } catch (error) {
             console.error('Ошибка при получении данных с сервера:', error);
         }
@@ -66,7 +68,6 @@ function AdminPage() {
                 </Modal.Body>
             </Modal>
 
-
             <div className="admin_header">
                 <h2>Добро пожаловать в админ-панель</h2>
                 <div className="d-grid gap-2 d-md-block">
@@ -80,92 +81,13 @@ function AdminPage() {
                 </div>
 
             </div>
+
+
             <div className="admin_body">
                 {showArticles ? (
-                    <div>
-                        <caption>Статьи</caption>
-                        <button type="button" className="btn btn-success"
-                                style={{float: "left", marginBottom: "10px"}}>Добавить
-                        </button>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Изображение</th>
-                                <th>Тема</th>
-                                <th>Заголовок</th>
-                                <th>Содержание</th>
-                                <th>Действия</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {articles.map(article => (
-                                <tr key={article.id}>
-                                    <td>{article.id}</td>
-                                    <td>
-                                        <img className="table-img" src={"https://localhost:5001/images/" + article.url}/>
-                                    </td>
-                                    <td>{article.tag}</td>
-                                    <td>{article.title}</td>
-                                    <td>
-                                        {article.subtitle.length > 50 ? (
-                                            <span className="title" onClick={() => {
-                                                setShowSubtitle(true);
-                                                setShowing(article);
-                                            }} style={{cursor: "pointer"}}>
-                                                {article.subtitle.substring(0, 50) + "..."}
-                                            </span>
-                                        ) : (
-                                            <span className="title" onClick={() => {
-                                                setShowSubtitle(true);
-                                                setShowing(article);
-                                            }} style={{cursor: "pointer"}}>
-                                                {article.subtitle}
-                                            </span>
-                                        )}
-
-                                    </td>
-                                    <td>
-                                        <button type="button" className="btn btn-outline-secondary"
-                                                style={{marginRight: "5px"}}>Изменить
-                                        </button>
-                                        <button type="button" className="btn btn-outline-danger">Удалить</button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    <TableArticles data={articles} setShowing={setShowing} setShowSubtitle={setShowSubtitle}></TableArticles>
                 ) : (
-                    <div>
-                        <caption>Пользователи</caption>
-                        <button type="button" className="btn btn-success"
-                                style={{float: "left", marginBottom: "10px"}}>Добавить
-                        </button>
-
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Никнейм</th>
-                                <th>Пароль</th>
-                                <th>Удалить</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {users.map(user => (
-                                <tr key={user.id}>
-                                    <td>{user.id}</td>
-                                    <td>{user.nickname}</td>
-                                    <td>{user.password}</td>
-                                    <td>
-                                        <button type="button" className="btn btn-outline-danger">Удалить</button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    <TableUsers data={users}></TableUsers>
                 )}
             </div>
 

@@ -13,13 +13,6 @@ function MainPage({articles}) {
     // состояние для текущей статьи в модальном окне
     const [showing, setShowing] = useState([]);
 
-    const updateShowing = (newValue) => {
-        setShowing(newValue);
-    };
-
-    const updateShowSubtitle = (newValue) => {
-        setShowSubtitle(newValue);
-    };
 
 
     return (
@@ -46,10 +39,10 @@ function MainPage({articles}) {
             </div>
 
             <div className="main">
-                {articles.map((article, index) => (
+                {articles.map((article) => (
                     // применяем внешний компонент к каждой полученной новости
                     <ArticleData
-                                 article={article} updateShowSubtitle={updateShowSubtitle} updateShowing={updateShowing} />
+                                 article={article} updateShowSubtitle={setShowSubtitle} updateShowing={setShowing} />
                 ))}
             </div>
         </div>
