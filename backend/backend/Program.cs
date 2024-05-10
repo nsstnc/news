@@ -153,6 +153,21 @@ app.Map("/check_auth", [Authorize] (HttpContext context, Context db) =>
 });
 
 
+app.Map("/admin",  (HttpContext context, Context db) =>
+{
+    List<Article> articles = db.Articles.ToList();
+    List<User> users = db.Users.ToList();
+
+    var data = new
+    {
+        Articles = articles,
+        Users = users
+    };
+
+    return data;
+});
+
+
 
 
 app.Run();

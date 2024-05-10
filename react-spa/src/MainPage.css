@@ -4,13 +4,13 @@
     text-decoration: none;
     padding: .8em 1em calc(.8em + 3px);
     border-radius: 20px;
-    background: rgba(0, 0, 0, 0);;
     border: 2px solid white;
     transition: 0.2s;
     top: 10px;
     right: 10%;
     position: fixed;
     z-index: 9999;
+    background: #7f7fd5;
 }
 
 .enter-button:hover {
@@ -28,5 +28,6 @@
     max-width: 1200px;
     margin-block: 2rem;
     gap: 2rem;
+    margin-top: 50px;
 }
 

@@ -81,7 +81,7 @@ function Main() {
         }
     };
 
-    
+
 
 
     useEffect(() => {
@@ -104,7 +104,7 @@ function Main() {
 
     return (
         <div class="container">
-            <MainPage articles={articles} counts={counts} incrementCounts={incrementCounts}> </MainPage>
+            <MainPage articles={articles}> </MainPage>
         </div>
 
 
