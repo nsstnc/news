@@ -40,10 +40,25 @@ function AdminPage() {
         }
     };
 
-
     useEffect(() => {
         getApiData();
     }, []);
+
+    // функция выхода пользователя
+    const logOut = async () => {
+        try {
+            await axios.get('https://localhost:5001/logout', {
+                withCredentials: true
+            });
+
+        } catch (error) {
+            console.error('Ошибка при получении данных с сервера:', error);
+        }
+        window.location.reload();
+    };
+
+
+
 
 
     return (
@@ -77,7 +92,8 @@ function AdminPage() {
                     <button onClick={() => setShowArticles(false)} className="btn btn-primary"
                             type="button">Пользователи
                     </button>
-                    <button type="button" className="btn btn-outline-danger" style={{float: "right"}}>Выйти</button>
+                    <button onClick={() => logOut()}
+                            type="button" className="btn btn-outline-danger" style={{float: "right"}}>Выйти</button>
                 </div>
 
             </div>

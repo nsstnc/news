@@ -41,20 +41,17 @@ function LoginPage() {
 
     };
     return (
-        <div className="">
-            <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <div className="form-group">
-                    <label htmlFor="exampleInput1">Имя</label>
-                    <input type="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        <div>
+            <form className="login-form" onSubmit={handleSubmit} >
+                <div className="form-group" style={{marginBottom: "10px"}}>
+                    <input type="name" className="form-control" id="exampleInputEmail1" placeholder="имя"
                            onChange={(e) => setNickname(e.target.value)}/>
-
                 </div>
                 <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Пароль</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1"
+                    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="пароль"
                            onChange={(e) => setPassword(e.target.value)}/>
                 </div>
-                <button type="submit" className="btn btn-primary">Войти</button>
+                <button style={{width: "100%"}} type="submit" className="btn btn-primary">Войти</button>
             </form>
 
 

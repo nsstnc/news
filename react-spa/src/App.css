@@ -138,3 +138,11 @@ body {
   border-radius: 10px;
   margin-bottom: 20px;
 }
+
+.login-form {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

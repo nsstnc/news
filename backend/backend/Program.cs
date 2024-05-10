@@ -147,6 +147,17 @@ app.Map("/login", async (HttpContext context, Context db) =>
 });
 
 
+app.MapGet("/logout", async (HttpContext context) =>
+{
+    await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    return Results.Ok();
+});
+
+
+
+
+
+
 app.Map("/check_auth", [Authorize] (HttpContext context, Context db) =>
 {
     return Results.Ok();
