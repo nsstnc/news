@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 
-const TableUsers = ({data, showArticles}) => {
+const TableUsers = ({data, showArticles, getApiData}) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);

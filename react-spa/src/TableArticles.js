@@ -6,7 +6,7 @@ import ModalForm from "./ModalForm";
 import axios from "axios";
 
 
-const TableArticles = ({data, setShowing, setShowSubtitle, showArticles}) => {
+const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiData}) => {
     // различные состояния для пагинации
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -64,7 +64,7 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles}) => {
 
     return (
         <div>
-            <ModalForm show={show} handleClose={handleClose} isAdding={adding} showArticles={showArticles} data={item}
+            <ModalForm show={show} handleClose={handleClose} isAdding={adding} showArticles={showArticles} getApiData={getApiData} data={item}
             ></ModalForm>
 
             <caption>Статьи</caption>

@@ -8,7 +8,7 @@ import TableArticles from "./TableArticles";
 import TableUsers from "./TableUsers";
 import ModalForm from "./ModalForm";
 
-// TODO редактирование статей, удаление, добавление новых
+// TODO редактирование статей, удаление
 // TODO возможность добавлять новых пользователей
 
 function AdminPage() {
@@ -29,7 +29,7 @@ function AdminPage() {
     // функция получения данных с бэка
     const getApiData = async () => {
         try {
-            const response = await axios.get('https://localhost:5001/admin');
+            const response = await axios.get('https://localhost:5001/admin',{withCredentials: true});
 
 
             // обновляем массив статей
@@ -104,9 +104,9 @@ function AdminPage() {
 
             <div className="admin_body">
                 {showArticles ? (
-                    <TableArticles data={articles} setShowing={setShowing} setShowSubtitle={setShowSubtitle} showArticles={showArticles}></TableArticles>
+                    <TableArticles data={articles} setShowing={setShowing} setShowSubtitle={setShowSubtitle} showArticles={showArticles} getApiData={getApiData}></TableArticles>
                 ) : (
-                    <TableUsers data={users} showArticles={showArticles}></TableUsers>
+                    <TableUsers data={users} showArticles={showArticles} getApiData={getApiData}></TableUsers>
                 )}
             </div>
 

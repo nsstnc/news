@@ -28,7 +28,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 builder.Services.AddAuthorization();
 
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "MySessionCookie";
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Время жизни сеанса
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -77,16 +84,18 @@ app.MapPost("/upload", async (HttpContext context, Context db) =>
 
     foreach (var file in files)
     {
-        // путь к папке uploads
-        string fullPath = $"{uploadPath}/{file.FileName}";
+        // генерируем уникальное имя файла
+        string uniqueFileName = $"{Guid.NewGuid().ToString()}_{file.FileName}";
 
-        // сохраняем файл в папку uploads
+        // путь к папке uploads
+        string fullPath = Path.Combine(uploadPath, uniqueFileName);
+
+        // сохраняем файл в папку 
         using (var fileStream = new FileStream(fullPath, FileMode.Create))
         {
             await file.CopyToAsync(fileStream);
         }
-
-        image = file.FileName;
+        image = uniqueFileName;
     }
 
 
@@ -100,8 +109,6 @@ app.MapPost("/upload", async (HttpContext context, Context db) =>
     await db.Articles.AddAsync(article);
     await db.SaveChangesAsync();
 
-
-    context.Response.Redirect("/add_record");
 });
 
 
@@ -165,7 +172,7 @@ app.Map("/check_auth", [Authorize] (HttpContext context, Context db) =>
 });
 
 
-app.Map("/admin", (HttpContext context, Context db) =>
+app.Map("/admin", [Authorize] (HttpContext context, Context db) =>
 {
     List<Article> articles = db.Articles.ToList();
     List<User> users = db.Users.ToList();
@@ -205,7 +212,10 @@ app.Map("/get_article_by_id", async (HttpContext context, Context db) =>
     }
 });
 
-
+app.MapDelete("/delete_article_by_id", async (HttpContext context, Context db) =>
+{
+    
+});
 
 app.Run();
 

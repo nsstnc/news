@@ -2,10 +2,41 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import axios from "axios";
 
-const ModalForm = ({show, handleClose, isAdding, showArticles, data=null}) => {
-    {/*модальное окно формы изменения/добавления записи*/
-    }
+const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data=null}) => {
+    {/*модальное окно формы изменения/добавления записи*/}
+    const [file, setFile] = useState(null);
+    const [tag, setTag] = useState("");
+    const [title, setTitle] = useState("");
+    const [subtitle, setSubtitle] = useState("");
+
+    const handleSubmit = async () => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("tag", tag);
+        formData.append("title", title);
+        formData.append("subtitle", subtitle);
+
+        try {
+            const response = await axios.post("https://localhost:5001/upload", formData, {
+                withCredentials: true,
+            });
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        // закрываем модальное окно
+        handleClose();
+        // сбрасываем состояние формы
+        setFile(null);
+        setTag("");
+        setTitle("");
+        setSubtitle("");
+        // обновляем содержимое страницы
+        getApiData();
+    };
+
     return (
         <div>
                 {
@@ -26,23 +57,23 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, data=null}) => {
                                 <Form>
                                     <Form.Group controlId="formFile" className="mb-3">
                                         <Form.Label>Изображение</Form.Label>
-                                        <Form.Control type="file"/>
+                                        <Form.Control type="file" onChange={(e) => setFile(e.target.files[0])}/>
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-3">
                                         <Form.Label>Тема</Form.Label>
-                                        <Form.Control type="text" placeholder="Тема"/>
+                                        <Form.Control type="text" placeholder="Тема" value={tag} onChange={(e) => setTag(e.target.value)}/>
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-3">
                                         <Form.Label>Заголовок</Form.Label>
-                                        <Form.Control type="text" placeholder="Заголовок"/>
+                                        <Form.Control type="text" placeholder="Заголовок" value={title} onChange={(e) => setTitle(e.target.value)}/>
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-3"
                                         >
                                         <Form.Label>Содержание</Form.Label>
-                                        <Form.Control as="textarea" rows={50}/>
+                                        <Form.Control as="textarea" rows={50} value={subtitle} onChange={(e) => setSubtitle(e.target.value)}/>
                                     </Form.Group>
                                 </Form>
                             </Modal.Body>
@@ -50,7 +81,7 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, data=null}) => {
                                 <button className="btn btn-outline-danger" onClick={handleClose}>
                                     Закрыть
                                 </button>
-                                <button className="btn btn-success" onClick={handleClose}>
+                                <button className="btn btn-success" onClick={handleSubmit}>
                                     Добавить
                                 </button>
                             </Modal.Footer>
@@ -70,6 +101,8 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, data=null}) => {
                             </Modal.Header>
                             <Modal.Body>
                                 <Form>
+                                    <img className="article-img"
+                                         src={"https://localhost:5001/images/" + data.url}/>
                                     <Form.Group controlId="formFile" className="mb-3">
                                         <Form.Label>Изображение</Form.Label>
                                         <Form.Control type="file"/>
