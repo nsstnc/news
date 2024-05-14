@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MfU11MRpGKkB2bmJfmxUeJLIkKd+svIsezfZWJ9HKiY=",
+  "Hash": "LaMrzRPTitdo+p8H1jwDzrI3mp3fKLA3ctnSEVDmcpo=",
   "Source": "backend",
   "BasePath": "_content/backend",
   "Mode": "Default",
@@ -53,25 +53,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\2.jpg"
-    },
-    {
-      "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\4.jpeg",
-      "SourceId": "backend",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\",
-      "BasePath": "_content/backend",
-      "RelativePath": "images/4.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\4.jpeg"
     },
     {
       "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\42ba7408-f483-4a0b-9201-49d999b6e568_original-1gae.jpg",
@@ -243,6 +224,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\c6a1d3af-eef0-4465-b4f1-3ba243c735a6_original-1gae.jpg"
+    },
+    {
+      "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\f5eecc24-404e-4201-98ff-dd97b2881cfc",
+      "SourceId": "backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\",
+      "BasePath": "_content/backend",
+      "RelativePath": "images/f5eecc24-404e-4201-98ff-dd97b2881cfc",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\f5eecc24-404e-4201-98ff-dd97b2881cfc"
     },
     {
       "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\qr (1).png",

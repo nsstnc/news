@@ -207,14 +207,74 @@ app.Map("/get_article_by_id", async (HttpContext context, Context db) =>
         };
 
         return data;
-
-
     }
 });
 
 app.MapDelete("/delete_article_by_id", async (HttpContext context, Context db) =>
 {
     
+});
+
+
+app.MapPut("/edit_article_by_id", async (HttpContext context, Context db) =>
+{
+    var form = context.Request.Form;
+    int id = int.Parse(form["id"]);
+    string tag = form["tag"];
+    string title = form["title"];
+    string subtitle = form["subtitle"];
+
+
+
+    Article? old = await db.Articles.FirstOrDefaultAsync(a => a.Id == id);
+
+
+
+
+    IFormFileCollection files = context.Request.Form.Files;
+    // путь к папке, где будут храниться файлы
+    var uploadPath = $"{Directory.GetCurrentDirectory()}/wwwroot/images";
+    // создаем папку для хранения файлов
+    Directory.CreateDirectory(uploadPath);
+
+    string image = "";
+
+    foreach (var file in files)
+    {
+        // генерируем уникальное имя файла
+        string uniqueFileName = $"{Guid.NewGuid().ToString()}_{file.FileName}";
+
+        // путь к папке uploads
+        string fullPath = Path.Combine(uploadPath, uniqueFileName);
+
+        // сохраняем файл в папку 
+        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+        {
+            await file.CopyToAsync(fileStream);
+        }
+        image = uniqueFileName;
+    }
+
+
+
+    old.Title = title;
+    old.Subtitle = subtitle;
+    old.Tag = tag;
+
+    // если новое изображение было загружено
+    if (image != "")
+    {
+        // Удаляем старое изображение
+        var path = $"{Directory.GetCurrentDirectory()}/wwwroot/images";
+        string fullPath = Path.Combine(uploadPath, old.Url);
+
+        File.Delete(fullPath);
+
+        old.Url = image;
+    }
+
+
+    await db.SaveChangesAsync();
 });
 
 app.Run();

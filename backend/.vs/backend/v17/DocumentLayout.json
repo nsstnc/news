@@ -42,8 +42,7 @@
               "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/news_app1/True/SqlTable/dbo.Articles.sql",
               "ToolTip": "dbo.Articles [\u0414\u0430\u043D\u043D\u044B\u0435]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2024-05-10T15:17:17.26Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-10T15:17:17.26Z"
             },
             {
               "$type": "Document",
@@ -55,8 +54,7 @@
               "RelativeToolTip": "backend\\User.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T19:13:02.233Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-08T19:13:02.233Z"
             },
             {
               "$type": "Document",
@@ -66,7 +64,7 @@
               "RelativeDocumentMoniker": "backend\\Program.cs",
               "ToolTip": "D:\\Desktop\\\u0443\u0447\u0435\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0412\u0435\u0431-\u0440\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u043A\u0430\\last-project\\news\\backend\\backend\\Program.cs",
               "RelativeToolTip": "backend\\Program.cs",
-              "ViewState": "AQIAAKUAAAAAAAAAAAAAALwAAAAdAAAA",
+              "ViewState": "AQIAAN0AAAAAAAAAAAAiwPQAAABIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-08T18:00:24.696Z",
               "EditorCaption": ""
@@ -81,8 +79,7 @@
               "RelativeToolTip": "backend\\Context.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T17:58:48.697Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-08T17:58:48.697Z"
             },
             {
               "$type": "Document",
@@ -94,8 +91,7 @@
               "RelativeToolTip": "backend\\Article.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T17:58:11.468Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-08T17:58:11.468Z"
             },
             {
               "$type": "Document",

@@ -54,7 +54,7 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
     const handleShow = () => setShow(true);
     const [adding, setAdding] = useState(true);
     const [currentId, setCurrentId] = useState(1);
-    const [item, setItem] = useState(null);
+    const [item, setItem] = useState( { file: '', tag: '', title: '', subtitle: '' });
 
     useEffect(() => {
         getDataById(currentId);
@@ -114,6 +114,7 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
                 <tbody>
                 {currentItems.map(article => (
                     <tr key={article.id}>
+
                         <td>{article.id}</td>
                         <td>
                             <img className="table-img"

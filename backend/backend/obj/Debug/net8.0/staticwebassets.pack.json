@@ -9,10 +9,6 @@
       "PackagePath": "staticwebassets\\images\\2.jpg"
     },
     {
-      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\4.jpeg",
-      "PackagePath": "staticwebassets\\images\\4.jpeg"
-    },
-    {
       "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\42ba7408-f483-4a0b-9201-49d999b6e568_original-1gae.jpg",
       "PackagePath": "staticwebassets\\images\\42ba7408-f483-4a0b-9201-49d999b6e568_original-1gae.jpg"
     },
@@ -47,6 +43,10 @@
     {
       "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\c6a1d3af-eef0-4465-b4f1-3ba243c735a6_original-1gae.jpg",
       "PackagePath": "staticwebassets\\images\\c6a1d3af-eef0-4465-b4f1-3ba243c735a6_original-1gae.jpg"
+    },
+    {
+      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\f5eecc24-404e-4201-98ff-dd97b2881cfc",
+      "PackagePath": "staticwebassets\\images"
     },
     {
       "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\qr (1).png",
