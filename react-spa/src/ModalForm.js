@@ -7,9 +7,9 @@ import axios from "axios";
 const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}) => {
     {/*модальное окно формы изменения/добавления записи*/}
     const [file, setFile] = useState(null);
-    const [tag, setTag] = useState(data.tag);
-    const [title, setTitle] = useState(data.title);
-    const [subtitle, setSubtitle] = useState(data.subtitle);
+    const [tag, setTag] = useState("");
+    const [title, setTitle] = useState("");
+    const [subtitle, setSubtitle] = useState("");
 
 
 
@@ -30,17 +30,17 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
         }
         // закрываем модальное окно
         handleClose();
-        // сбрасываем состояние формы
-        setFile(null);
-        setTag(data.tag);
-        setTitle(data.title);
-        setSubtitle(data.subtitle);
+        // // сбрасываем состояние формы
+        // setFile(null);
+        // setTag("");
+        // setTitle("");
+        // setSubtitle("");
         // обновляем содержимое страницы
         getApiData();
     };
 
 
-    const editSubmit = async () => {
+    const editHandle = async () => {
         const formData = new FormData();
 
         formData.append("id", data.id);
@@ -103,18 +103,18 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
                                     <Form.Group
                                         className="mb-3">
                                         <Form.Label>Тема</Form.Label>
-                                        <Form.Control type="text" placeholder="Тема" value="" on onChange={(e) => setTag(e.target.value)}/>
+                                        <Form.Control type="text" placeholder="Тема" on onChange={(e) => setTag(e.target.value)}/>
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-3">
                                         <Form.Label>Заголовок</Form.Label>
-                                        <Form.Control type="text" placeholder="Заголовок" value="" onChange={(e) => setTitle(e.target.value)}/>
+                                        <Form.Control type="text" placeholder="Заголовок" onChange={(e) => setTitle(e.target.value)}/>
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-3"
                                         >
                                         <Form.Label>Содержание</Form.Label>
-                                        <Form.Control as="textarea" rows={50} value="" onChange={(e) => setSubtitle(e.target.value)}/>
+                                        <Form.Control as="textarea" rows={50} onChange={(e) => setSubtitle(e.target.value)}/>
                                     </Form.Group>
                                 </Form>
                             </Modal.Body>
@@ -143,7 +143,7 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
                             <Modal.Body>
                                 <Form>
                                     <img className="article-img"
-                                         src={"https://localhost:5001/images/" + data.url}/>
+                                         src={"https://localhost:5001/images/" + data?.url}/>
                                     <Form.Group controlId="formFile" className="mb-3">
                                         <Form.Label>Изображение</Form.Label>
                                         <Form.Control type="file" onChange={(e) => setFile(e.target.files[0])}/>
@@ -170,7 +170,7 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
                                 <button className="btn btn-outline-danger" onClick={handleClose}>
                                     Закрыть
                                 </button>
-                                <button className="btn btn-success" onClick={editSubmit}>
+                                <button className="btn btn-success" onClick={editHandle}>
                                     Сохранить
                                 </button>
                             </Modal.Footer>
@@ -178,10 +178,10 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
                     )
                 ) : (
                     isAdding ? (
-                        /* Когда не показываем статьи и добавляем */
+                        /* Когда показываем не статьи и добавляем */
                         <div></div>
                     ) : (
-                        /* Когда не показываем статьи и не добавляем */
+                        /* Когда показываем не статьи и не добавляем */
                         <div></div>
                     )
                 )

@@ -8,6 +8,7 @@ using System.Data;
 using System.Security.Claims;
 using Newtonsoft.Json;
 using System.Collections.Immutable;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 Role admin = new Role("admin");
@@ -212,7 +213,30 @@ app.Map("/get_article_by_id", async (HttpContext context, Context db) =>
 
 app.MapDelete("/delete_article_by_id", async (HttpContext context, Context db) =>
 {
-    
+    // Чтение данных из тела запроса
+    using (StreamReader reader = new StreamReader(context.Request.Body))
+    {
+        string requestBody = await reader.ReadToEndAsync();
+
+        app.Logger.LogCritical($"{requestBody}");
+
+        Item item = JsonConvert.DeserializeObject<Item>(requestBody);
+
+        var article = await db.Articles.FirstOrDefaultAsync(a => a.Id == item.Id);
+        var filename = article?.Url;
+
+        // Удаляем старое изображение
+        var path = $"{Directory.GetCurrentDirectory()}/wwwroot/images";
+        string fullPath = Path.Combine(path, filename);
+        File.Delete(fullPath);
+
+
+        // удаление из БД по id
+        await db.Articles.Where(a => a.Id == item.Id).ExecuteDeleteAsync();
+
+
+        await db.SaveChangesAsync();
+    }
 });
 
 
@@ -266,7 +290,7 @@ app.MapPut("/edit_article_by_id", async (HttpContext context, Context db) =>
     {
         // Удаляем старое изображение
         var path = $"{Directory.GetCurrentDirectory()}/wwwroot/images";
-        string fullPath = Path.Combine(uploadPath, old.Url);
+        string fullPath = Path.Combine(path, old.Url);
 
         File.Delete(fullPath);
 

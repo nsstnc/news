@@ -4,6 +4,26 @@ import Modal from "react-bootstrap/Modal";
 import Form from 'react-bootstrap/Form';
 import ModalForm from "./ModalForm";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
+
+const DeleteConfirmationModal = ({ show, handleClose, deleteHandle, id }) => {
+    return (
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Подтверждение удаления</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Вы уверены, что хотите удалить этот элемент?</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Отмена
+                </Button>
+                <Button variant="danger" onClick={() => deleteHandle(id)}>
+                    Удалить
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
 
 
 const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiData}) => {
@@ -46,7 +66,30 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
 
     }
 
+    const deleteHandle = async (id) => {
+        try {
+            const response = await axios.delete("https://localhost:5001/delete_article_by_id", {
+                data: { id },
+                withCredentials: true,
+            });
 
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        // Закрываем модальное окно подтверждения удаления
+        handleCloseConfirmationModal();
+        // обновляем содержимое страницы
+        getApiData();
+    };
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    // Открыть модальное окно удаления
+    const handleDeleteConfirmation = () => {
+        setShowConfirmationModal(true);
+    };
+    // Закрыть модальное окно удаления
+    const handleCloseConfirmationModal = () => {
+        setShowConfirmationModal(false);
+    };
 
     // состояния для модального окна формы
     const [show, setShow] = useState(false);
@@ -54,7 +97,7 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
     const handleShow = () => setShow(true);
     const [adding, setAdding] = useState(true);
     const [currentId, setCurrentId] = useState(1);
-    const [item, setItem] = useState( { file: '', tag: '', title: '', subtitle: '' });
+    const [item, setItem] = useState( null);
 
     useEffect(() => {
         getDataById(currentId);
@@ -64,6 +107,12 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
 
     return (
         <div>
+            <DeleteConfirmationModal
+                show={showConfirmationModal}
+                handleClose={handleCloseConfirmationModal}
+                deleteHandle={deleteHandle}
+                id={currentId}
+            />
             <ModalForm show={show} handleClose={handleClose} isAdding={adding} showArticles={showArticles} getApiData={getApiData} data={item}
             ></ModalForm>
 
@@ -148,7 +197,11 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
                             }} type="button" className="btn btn-outline-secondary"
                                     style={{marginRight: "5px"}}>Изменить
                             </button>
-                            <button type="button" className="btn btn-outline-danger">Удалить</button>
+                            <button onClick={() => {
+                                 handleDeleteConfirmation(article.id);
+                                 setCurrentId(article.id);
+                            }} type="button" className="btn btn-outline-danger">Удалить</button>
+
                         </td>
                     </tr>
                 ))}
