@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from "axios";
 
-const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}) => {
+const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data, checkUserExists}) => {
     {/*модальное окно формы изменения/добавления записи*/}
     const [file, setFile] = useState(null);
     const [tag, setTag] = useState("");
@@ -12,7 +12,12 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
     const [subtitle, setSubtitle] = useState("");
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
+    const [old_password, setOldPassword] = useState("");
+    const [current_password, setCurrentPassword] = useState("");
 
+    // переменная для показа модального окна ошибки
+    const [showError, setShowError] = useState(false);
+    const [message, setMessage] = useState("Пользователь с таким именем уже существует");
 
     const handleSubmit = async () => {
         const formData = new FormData();
@@ -66,46 +71,87 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
     };
 
     const editUserHandle = async () => {
-        const formData = new FormData();
+        const userExists = await checkUserExists(nickname, data.id);
+        try{
+            if (userExists) {
+                setMessage("Пользователь с таким именем уже существует");
+                throw new Error('Ошибка');
+            } else {
+                const formData = new FormData();
 
-        formData.append("id", data.id);
-        formData.append("nickname", nickname);
-        formData.append("password", password);
+                formData.append("id", data.id);
+                formData.append("nickname", nickname);
+                formData.append("password", password);
+                formData.append("old_password", old_password);
 
-        try {
-            const response = await axios.put("https://localhost:5001/edit_user_by_id", formData, {
-                withCredentials: true,
-            });
+                try {
+                    const response = await axios.put("https://localhost:5001/edit_user_by_id", formData, {
+                        withCredentials: true,
+                    });
+                    if (response.status === 401) {
+                        throw new Error('Unauthorized');
+                    }
 
+                    // закрываем модальное окно
+                    handleClose();
+                    // сбрасываем состояние формы
+                    setNickname("");
+                    setPassword("");
+                    setOldPassword("");
+                    // обновляем содержимое страницы
+                    getApiData();
+
+                } catch (error) {
+                    setMessage("Неверный пароль");
+                    setShowError(true);
+                    console.error("Error:", error);
+                }
+
+            }
         } catch (error) {
-            console.error("Error:", error);
+            // Обработка ошибок
+            console.error('Произошла ошибка:', error);
+            setShowError(true);
         }
-        // закрываем модальное окно
-        handleClose();
-        // сбрасываем состояние формы
-        setNickname("");
-        setPassword("");
-        // обновляем содержимое страницы
-        getApiData();
     };
 
     const handleUserSubmit = async () => {
-        const formData = new FormData();
-        formData.append("nickname", nickname);
-        formData.append("password", password);
+        const userExists = await checkUserExists(nickname);
+        try{
+            if (userExists) {
+                setMessage("Пользователь с таким именем уже существует");
+                throw new Error('Ошибка');
+            } else {
+                const formData = new FormData();
 
-        try {
-            const response = await axios.post("https://localhost:5001/add_user", formData, {
-                withCredentials: true,
-            });
+                formData.append("nickname", nickname);
+                formData.append("password", password);
+                formData.append("current_password", current_password);
 
+                try {
+                    const response = await axios.post("https://localhost:5001/add_user", formData, {
+                        withCredentials: true,
+                    });
+                    if (response.status === 401) {
+                        throw new Error('Unauthorized');
+                    }
+                    // закрываем модальное окно
+                    handleClose();
+                    // обновляем содержимое страницы
+                    getApiData();
+                } catch (error) {
+                    setMessage("Неверный пароль");
+                    setShowError(true);
+                    console.error("Error:", error);
+                }
+
+            }
         } catch (error) {
-            console.error("Error:", error);
+            // Обработка ошибок
+            console.error('Произошла ошибка:', error);
+            setMessage("Пользователь с таким именем уже существует");
+            setShowError(true);
         }
-        // закрываем модальное окно
-        handleClose();
-        // обновляем содержимое страницы
-        getApiData();
     };
 
 
@@ -125,6 +171,7 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
 
     return (
         <div>
+            {/* Модальное окно для отображения ошибки */}
                 {
                 showArticles ? (
                     isAdding ? (
@@ -238,6 +285,12 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
                                 <Form>
                                     <Form.Group
                                         className="mb-3">
+                                        <Form.Label>Пароль текущего пользователя</Form.Label>
+                                        <Form.Control type="password" placeholder="Пароль" onChange={(e) => setCurrentPassword(e.target.value)}/>
+                                    </Form.Group>
+
+                                    <Form.Group
+                                        className="mb-3">
                                         <Form.Label>Никнейм</Form.Label>
                                         <Form.Control type="text" placeholder="Никнейм" onChange={(e) => setNickname(e.target.value)}/>
                                     </Form.Group>
@@ -247,12 +300,19 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
                                         <Form.Control type="password" placeholder="Пароль" onChange={(e) => setPassword(e.target.value)}/>
                                     </Form.Group>
                                 </Form>
+                                <a style={{display: showError ? 'block' : 'none', color: 'red'}}>{message}</a>
                             </Modal.Body>
                             <Modal.Footer>
-                                <button className="btn btn-outline-danger" onClick={handleClose}>
+                                <button className="btn btn-outline-danger" onClick={()=> {
+                                    handleClose();
+                                    setShowError(false);
+                                }}>
                                     Закрыть
                                 </button>
-                                <button className="btn btn-success" onClick={handleUserSubmit}>
+                                <button className="btn btn-success" onClick={()=> {
+                                    setShowError(false);
+                                    handleUserSubmit();
+                                }}>
                                     Добавить
                                 </button>
                             </Modal.Footer>
@@ -278,16 +338,28 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
                                     </Form.Group>
                                     <Form.Group
                                         className="mb-3">
+                                        <Form.Label>Старый пароль</Form.Label>
+                                        <Form.Control type="password" placeholder="Старый пароль" onChange={(e) => setOldPassword(e.target.value)}/>
+                                    </Form.Group>
+                                    <Form.Group
+                                        className="mb-3">
                                         <Form.Label>Пароль</Form.Label>
-                                        <Form.Control type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                        <Form.Control type="password" placeholder="Пароль" onChange={(e) => setPassword(e.target.value)}/>
                                     </Form.Group>
                                 </Form>
+                                <a style={{display: showError ? 'block' : 'none', color: 'red'}}>{message}</a>
                             </Modal.Body>
                             <Modal.Footer>
-                                <button className="btn btn-outline-danger" onClick={handleClose}>
+                                <button className="btn btn-outline-danger" onClick={()=> {
+                                    handleClose();
+                                    setShowError(false);
+                                }}>
                                     Закрыть
                                 </button>
-                                <button className="btn btn-success" onClick={editUserHandle}>
+                                <button className="btn btn-success" onClick={()=> {
+                                    setShowError(false);
+                                    editUserHandle();
+                                }}>
                                     Изменить
                                 </button>
                             </Modal.Footer>

@@ -83,7 +83,10 @@ const TableUsers = ({data, showArticles, getApiData}) => {
         getApiData();
     };
 
-
+    // метод проверки наличия пользователя
+    const checkUserExists = async (nickname, id=0) => {
+        return data.some(user => user.nickname === nickname && user.id !== id);
+    };
 
 
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -120,6 +123,7 @@ const TableUsers = ({data, showArticles, getApiData}) => {
                 id={currentId}
             />
             <ModalForm show={show} handleClose={handleClose} isAdding={adding} showArticles={showArticles} getApiData={getApiData} data={item}
+            checkUserExists={checkUserExists}
             ></ModalForm>
 
 
@@ -171,7 +175,10 @@ const TableUsers = ({data, showArticles, getApiData}) => {
                     <tr key={user.id}>
                         <td>{user.id}</td>
                         <td>{user.nickname}</td>
-                        <td>{user.password}</td>
+                        <td style={{
+                            wordWrap: 'break-word',
+                            maxWidth: '200px'
+                        }}>{user.password}</td>
                         <td>
                             <button onClick={() => {
                                 handleShow();

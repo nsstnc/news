@@ -133,9 +133,15 @@ app.Map("/login", async (HttpContext context, Context db) =>
 
 
         // поиск пользователя
-        User? user = db.Users.FirstOrDefault(p => p.Nickname == model.Nickname && p.Password == model.Password);
+        User? user = db.Users.FirstOrDefault(p => p.Nickname == model.Nickname);
         // если пользователь не найден, отправляем статусный код 401
         if (user is null) return Results.Unauthorized();
+
+        // проверка хэшированного пароля
+        if (!PasswordHasher.VerifyPassword(model.Password, user.Password)) return Results.Unauthorized();
+
+
+
         app.Logger.LogCritical($"{requestBody}");
 
         // список claim'ов
@@ -340,29 +346,54 @@ app.MapPut("/edit_user_by_id", async (HttpContext context, Context db) =>
     var form = context.Request.Form;
     int id = int.Parse(form["id"]);
     string nickname = form["nickname"];
+    string old_password = form["old_password"];
     string password = form["password"];
 
     User? old = await db.Users.FirstOrDefaultAsync(a => a.Id == id);
 
-    old.Nickname = nickname;
-    old.Password = password;
+    if (PasswordHasher.VerifyPassword(old_password, old.Password))
+    {
+        old.Nickname = nickname;
+        old.Password = PasswordHasher.HashPassword(password);
 
-    await db.SaveChangesAsync();
+        await db.SaveChangesAsync();
+        return Results.Ok();
+    }
+    else
+    {
+        return Results.Unauthorized();
+    }
+
+    
 });
 
 app.MapPost("/add_user", async (HttpContext context, Context db) =>
 {
     var form = context.Request.Form;
 
+    // получаем имя пользователя из Claims
+    string userName = context.User.FindFirst(ClaimTypes.Name)?.Value;
+
+    // поиск текущего пользователя
+    User? current_user = db.Users.FirstOrDefault(p => p.Nickname == userName);
 
     string nickname = form["nickname"];
-    string password = form["password"];
+    string current_password = form["current_password"];
+    string password = PasswordHasher.HashPassword(form["password"]);
 
-    User user = new User() { Nickname = nickname, Password = password };
+    // проверяем совпадение пароля текущего пользователя
+    if (PasswordHasher.VerifyPassword(current_password, current_user.Password))
+    {
+        User user = new User() { Nickname = nickname, Password = password };
 
-    await db.Users.AddAsync(user);
-    await db.SaveChangesAsync();
-
+        await db.Users.AddAsync(user);
+        await db.SaveChangesAsync();
+        return Results.Ok();
+    }
+    else
+    {
+        return Results.Unauthorized();
+    }
 });
 
 
