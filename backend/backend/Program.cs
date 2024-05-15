@@ -9,6 +9,8 @@ using System.Security.Claims;
 using Newtonsoft.Json;
 using System.Collections.Immutable;
 using System.Security.Cryptography;
+using Microsoft.Extensions.FileProviders;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 Role admin = new Role("admin");
@@ -16,7 +18,7 @@ Role admin = new Role("admin");
 builder.Services.AddCors();
 
 // строка подключения к базе данных
-string connection = "Server=(localdb)\\mssqllocaldb;Database=news_app1;Trusted_Connection=True;";
+string connection = "Server=(localdb)\\mssqllocaldb;Database=news_app2;Trusted_Connection=True;";
 
 // добавляем контекст Context в качестве сервиса в приложение
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connection));
@@ -55,19 +57,17 @@ builder.WithOrigins("https://localhost:3000") // разрешаем запросы только с этог
 
 
 
-// перезаписываем url, чтобы в маршруте не указывать расширения файлов
-RewriteOptions rewriteOptions = new RewriteOptions()
-.AddRewrite("add_record", "add_record.html", true);
-app.UseRewriter(rewriteOptions);
 
+// Настройка использования статических файлов
 app.UseStaticFiles();
+
 app.UseDefaultFiles();
 app.UseFileServer();
 
 
 
 
-app.MapGet("/articles", (Context db) => db.Articles.ToList());
+app.MapGet("/articles", (Context db) => db.Articles.OrderByDescending(a => a.Updated).ToList());
 
 
 
@@ -105,7 +105,7 @@ app.MapPost("/upload", async (HttpContext context, Context db) =>
     string subtitle = form["subtitle"];
 
 
-    Article article = new Article() { Tag = tag, Title = title, Subtitle = subtitle, Url = image };
+    Article article = new Article() { Tag = tag, Title = title, Subtitle = subtitle, Url = image, Updated = DateTime.Now };
 
     await db.Articles.AddAsync(article);
     await db.SaveChangesAsync();
@@ -175,7 +175,7 @@ app.Map("/check_auth", [Authorize] (HttpContext context, Context db) =>
 
 app.Map("/admin", [Authorize] (HttpContext context, Context db) =>
 {
-    List<Article> articles = db.Articles.ToList();
+    List<Article> articles = db.Articles.OrderByDescending(a => a.Updated).ToList();
     List<User> users = db.Users.ToList();
 
     var data = new
@@ -228,8 +228,14 @@ app.MapDelete("/delete_article_by_id", async (HttpContext context, Context db) =
         // Удаляем старое изображение
         var path = $"{Directory.GetCurrentDirectory()}/wwwroot/images";
         string fullPath = Path.Combine(path, filename);
-        File.Delete(fullPath);
-
+        try
+        {
+            File.Delete(fullPath);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            app.Logger.LogCritical($"Не удалось удалить файл. {ex}");
+        }
 
         // удаление из БД по id
         await db.Articles.Where(a => a.Id == item.Id).ExecuteDeleteAsync();
@@ -284,6 +290,7 @@ app.MapPut("/edit_article_by_id", async (HttpContext context, Context db) =>
     old.Title = title;
     old.Subtitle = subtitle;
     old.Tag = tag;
+    old.Updated = DateTime.Now;
 
     // если новое изображение было загружено
     if (image != "")

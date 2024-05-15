@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Wv+OR2gvwKrW8CF/Z3vV3MdylvaOUfPYLLC7FkcAm/w=",
+  "Hash": "LmaGNBHeJKb1r5pCeKSuk0x0g3mC+zvBHSFOJuaSm1c=",
   "Source": "backend",
   "BasePath": "_content/backend",
   "Mode": "Default",
@@ -243,6 +243,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\c6a1d3af-eef0-4465-b4f1-3ba243c735a6_original-1gae.jpg"
+    },
+    {
+      "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\desktop.ini",
+      "SourceId": "backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\",
+      "BasePath": "_content/backend",
+      "RelativePath": "images/desktop.ini",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\desktop.ini"
     },
     {
       "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\qr (1).png",

@@ -25,7 +25,7 @@ function MainPage({articles}) {
                    dialogClassName="modal-30w"
                    aria-labelledby="example-custom-modal-styling-title">
                 <Modal.Header closeButton>
-                    <Modal.Title>{showing.id}. {showing.title}</Modal.Title>
+                    <Modal.Title>{showing.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ textAlign: "justify" }}>
                     <img className="article-img" src={"https://localhost:5001/images/" + showing.url}/>

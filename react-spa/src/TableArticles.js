@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import ModalForm from "./ModalForm";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import moment from "moment";
 
 const DeleteConfirmationModal = ({ show, handleClose, deleteHandle, id }) => {
     return (
@@ -157,6 +158,7 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
                     <th>Тема</th>
                     <th>Заголовок</th>
                     <th>Содержание</th>
+                    <th>Изменено</th>
                     <th>Действия</th>
                 </tr>
                 </thead>
@@ -188,6 +190,9 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
                                             </span>
                             )}
 
+                        </td>
+                        <td>
+                            {moment(article.updated).format('DD.MM.YYYY, HH:mm')}
                         </td>
                         <td>
                             <button onClick={() => {
