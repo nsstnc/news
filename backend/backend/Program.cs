@@ -211,6 +211,32 @@ app.Map("/get_article_by_id", async (HttpContext context, Context db) =>
     }
 });
 
+
+app.Map("/get_user_by_id", async (HttpContext context, Context db) =>
+{
+    // Чтение данных из тела запроса
+    using (StreamReader reader = new StreamReader(context.Request.Body))
+    {
+        string requestBody = await reader.ReadToEndAsync();
+
+        app.Logger.LogCritical($"{requestBody}");
+
+        Item item = JsonConvert.DeserializeObject<Item>(requestBody);
+
+
+        User user = db.Users.Find(item.Id);
+
+
+        var data = new
+        {
+            User = user,
+        };
+
+        return data;
+    }
+});
+
+
 app.MapDelete("/delete_article_by_id", async (HttpContext context, Context db) =>
 {
     // Чтение данных из тела запроса
@@ -307,6 +333,60 @@ app.MapPut("/edit_article_by_id", async (HttpContext context, Context db) =>
 
     await db.SaveChangesAsync();
 });
+
+
+app.MapPut("/edit_user_by_id", async (HttpContext context, Context db) =>
+{
+    var form = context.Request.Form;
+    int id = int.Parse(form["id"]);
+    string nickname = form["nickname"];
+    string password = form["password"];
+
+    User? old = await db.Users.FirstOrDefaultAsync(a => a.Id == id);
+
+    old.Nickname = nickname;
+    old.Password = password;
+
+    await db.SaveChangesAsync();
+});
+
+app.MapPost("/add_user", async (HttpContext context, Context db) =>
+{
+    var form = context.Request.Form;
+
+
+    string nickname = form["nickname"];
+    string password = form["password"];
+
+    User user = new User() { Nickname = nickname, Password = password };
+
+    await db.Users.AddAsync(user);
+    await db.SaveChangesAsync();
+
+});
+
+
+app.MapDelete("/delete_user_by_id", async (HttpContext context, Context db) =>
+{
+    // Чтение данных из тела запроса
+    using (StreamReader reader = new StreamReader(context.Request.Body))
+    {
+        string requestBody = await reader.ReadToEndAsync();
+
+        app.Logger.LogCritical($"{requestBody}");
+
+        Item item = JsonConvert.DeserializeObject<Item>(requestBody);
+
+        
+        // удаление из БД по id
+        await db.Users.Where(a => a.Id == item.Id).ExecuteDeleteAsync();
+
+
+        await db.SaveChangesAsync();
+    }
+});
+
+
 
 app.Run();
 

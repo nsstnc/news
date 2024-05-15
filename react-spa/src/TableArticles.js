@@ -64,7 +64,6 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
             // Обработка ошибок
             console.error('Произошла ошибка:', error);
         }
-
     }
 
     const deleteHandle = async (id) => {
@@ -82,6 +81,7 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
         // обновляем содержимое страницы
         getApiData();
     };
+
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     // Открыть модальное окно удаления
     const handleDeleteConfirmation = () => {
@@ -189,7 +189,6 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
                                                 {article.subtitle}
                                             </span>
                             )}
-
                         </td>
                         <td>
                             {moment(article.updated).format('DD.MM.YYYY, HH:mm')}
@@ -200,8 +199,7 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
                                 setAdding(false);
                                 setCurrentId(article.id);
                             }} type="button" className="btn btn-outline-secondary"
-                                    style={{marginRight: "5px"}}>Изменить
-                            </button>
+                                    style={{marginRight: "5px"}}>Изменить</button>
                             <button onClick={() => {
                                  handleDeleteConfirmation(article.id);
                                  setCurrentId(article.id);

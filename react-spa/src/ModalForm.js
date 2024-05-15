@@ -10,7 +10,8 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
     const [tag, setTag] = useState("");
     const [title, setTitle] = useState("");
     const [subtitle, setSubtitle] = useState("");
-
+    const [nickname, setNickname] = useState("");
+    const [password, setPassword] = useState("");
 
 
     const handleSubmit = async () => {
@@ -31,10 +32,6 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
         // закрываем модальное окно
         handleClose();
         // // сбрасываем состояние формы
-        // setFile(null);
-        // setTag("");
-        // setTitle("");
-        // setSubtitle("");
         // обновляем содержимое страницы
         getApiData();
     };
@@ -68,12 +65,60 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
         getApiData();
     };
 
+    const editUserHandle = async () => {
+        const formData = new FormData();
+
+        formData.append("id", data.id);
+        formData.append("nickname", nickname);
+        formData.append("password", password);
+
+        try {
+            const response = await axios.put("https://localhost:5001/edit_user_by_id", formData, {
+                withCredentials: true,
+            });
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        // закрываем модальное окно
+        handleClose();
+        // сбрасываем состояние формы
+        setNickname("");
+        setPassword("");
+        // обновляем содержимое страницы
+        getApiData();
+    };
+
+    const handleUserSubmit = async () => {
+        const formData = new FormData();
+        formData.append("nickname", nickname);
+        formData.append("password", password);
+
+        try {
+            const response = await axios.post("https://localhost:5001/add_user", formData, {
+                withCredentials: true,
+            });
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+        // закрываем модальное окно
+        handleClose();
+        // обновляем содержимое страницы
+        getApiData();
+    };
+
+
+
     useEffect(() => {
+        console.log(data)
         // Обновление состояний при изменении data
         if (data) {
             setTag(data.tag);
             setTitle(data.title);
             setSubtitle(data.subtitle);
+            setNickname(data.nickname);
+            setPassword(data.password);
         }
     }, [data]);
 
@@ -179,15 +224,77 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data}
                 ) : (
                     isAdding ? (
                         /* Когда показываем не статьи и добавляем */
-                        <div></div>
+                        <Modal show={show}
+                               size="lg"
+                               onHide={handleClose}
+                               scrollable
+                               aria-labelledby="contained-modal-title-vcenter"
+                               centered
+                        >
+                            <Modal.Header closeButton>
+                                <Modal.Title>Добавление пользователя</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form>
+                                    <Form.Group
+                                        className="mb-3">
+                                        <Form.Label>Никнейм</Form.Label>
+                                        <Form.Control type="text" placeholder="Никнейм" onChange={(e) => setNickname(e.target.value)}/>
+                                    </Form.Group>
+                                    <Form.Group
+                                        className="mb-3">
+                                        <Form.Label>Пароль</Form.Label>
+                                        <Form.Control type="password" placeholder="Пароль" onChange={(e) => setPassword(e.target.value)}/>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <button className="btn btn-outline-danger" onClick={handleClose}>
+                                    Закрыть
+                                </button>
+                                <button className="btn btn-success" onClick={handleUserSubmit}>
+                                    Добавить
+                                </button>
+                            </Modal.Footer>
+                        </Modal>
                     ) : (
                         /* Когда показываем не статьи и не добавляем */
-                        <div></div>
+                        <Modal show={show}
+                               size="lg"
+                               onHide={handleClose}
+                               scrollable
+                               aria-labelledby="contained-modal-title-vcenter"
+                               centered
+                        >
+                            <Modal.Header closeButton>
+                                <Modal.Title>Изменение пользователя</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form>
+                                    <Form.Group
+                                        className="mb-3">
+                                        <Form.Label>Никнейм</Form.Label>
+                                        <Form.Control type="text" placeholder="Никнейм" value={nickname} onChange={(e) => setNickname(e.target.value)}/>
+                                    </Form.Group>
+                                    <Form.Group
+                                        className="mb-3">
+                                        <Form.Label>Пароль</Form.Label>
+                                        <Form.Control type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <button className="btn btn-outline-danger" onClick={handleClose}>
+                                    Закрыть
+                                </button>
+                                <button className="btn btn-success" onClick={editUserHandle}>
+                                    Изменить
+                                </button>
+                            </Modal.Footer>
+                        </Modal>
                     )
                 )
                 }
-
-
         </div>
     );
 }
