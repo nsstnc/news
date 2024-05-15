@@ -126,7 +126,10 @@ const TableUsers = ({data, showArticles, getApiData}) => {
 
             <caption>Пользователи</caption>
             <Dropdown>
-                <button onClick={handleShow} className="btn btn-success"
+                <button onClick={() => {
+                    handleShow();
+                    setAdding(true);
+                }} className="btn btn-success"
                         style={{float: "left", marginBottom: "10px"}}>Добавить
                 </button>
                 <Dropdown.Toggle variant="" id="dropdown-basic" style={{marginLeft: "10px"}}>
