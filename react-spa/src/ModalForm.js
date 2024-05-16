@@ -103,7 +103,7 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data,
 
                 } catch (error) {
                     setMessage("Неверный пароль");
-                    setShowError(true);
+                        setShowError(true);
                     console.error("Error:", error);
                 }
 

@@ -1,12 +1,12 @@
 {
   "Files": [
     {
-      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\1cba0ca0-72a6-41be-a378-b93dcac07e82_1614127568_12-p-zadnii-fon-dlya-intervyu-12.jpg",
-      "PackagePath": "staticwebassets\\images\\1cba0ca0-72a6-41be-a378-b93dcac07e82_1614127568_12-p-zadnii-fon-dlya-intervyu-12.jpg"
-    },
-    {
       "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\2.jpg",
       "PackagePath": "staticwebassets\\images\\2.jpg"
+    },
+    {
+      "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\4.jpeg",
+      "PackagePath": "staticwebassets\\images\\4.jpeg"
     },
     {
       "Id": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\42ba7408-f483-4a0b-9201-49d999b6e568_original-1gae.jpg",

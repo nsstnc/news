@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "LmaGNBHeJKb1r5pCeKSuk0x0g3mC+zvBHSFOJuaSm1c=",
+  "Hash": "loobCuwWG+AsytkbmfY4zdl5pF07TKmKOl8SaGfPuK8=",
   "Source": "backend",
   "BasePath": "_content/backend",
   "Mode": "Default",
@@ -16,25 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\1cba0ca0-72a6-41be-a378-b93dcac07e82_1614127568_12-p-zadnii-fon-dlya-intervyu-12.jpg",
-      "SourceId": "backend",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\",
-      "BasePath": "_content/backend",
-      "RelativePath": "images/1cba0ca0-72a6-41be-a378-b93dcac07e82_1614127568_12-p-zadnii-fon-dlya-intervyu-12.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\1cba0ca0-72a6-41be-a378-b93dcac07e82_1614127568_12-p-zadnii-fon-dlya-intervyu-12.jpg"
-    },
     {
       "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\2.jpg",
       "SourceId": "backend",
@@ -53,6 +34,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\2.jpg"
+    },
+    {
+      "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\4.jpeg",
+      "SourceId": "backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\",
+      "BasePath": "_content/backend",
+      "RelativePath": "images/4.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\4.jpeg"
     },
     {
       "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\42ba7408-f483-4a0b-9201-49d999b6e568_original-1gae.jpg",

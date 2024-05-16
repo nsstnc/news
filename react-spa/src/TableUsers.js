@@ -4,19 +4,41 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ModalForm from "./ModalForm";
+import Form from "react-bootstrap/Form";
 
 const DeleteConfirmationModal = ({ show, handleClose, deleteHandle, id }) => {
+    const [password, setPassword] = useState("");
+    // переменная для показа модального окна ошибки
+    const [showError, setShowError] = useState(false);
+
+
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Подтверждение удаления</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Вы уверены, что хотите удалить этот элемент?</Modal.Body>
+            <Modal.Body>
+                Вы уверены, что хотите удалить этот элемент?
+                <p></p>
+                <Form>
+                    <Form.Group
+                        className="mb-3">
+                        <Form.Control type="password" placeholder="Пароль удаляемого пользователя" onChange={(e) => setPassword(e.target.value)}/>
+                    </Form.Group>
+                </Form>
+                <a style={{display: showError ? 'block' : 'none', color: 'red'}}>Неверный пароль</a>
+            </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={()=> {
+                    handleClose();
+                    setShowError(false);
+                }}>
                     Отмена
                 </Button>
-                <Button variant="danger" onClick={() => deleteHandle(id)}>
+                <Button variant="danger" onClick={() => {
+                    setShowError(false);
+                    deleteHandle({setShowError}, id, password);
+                }}>
                     Удалить
                 </Button>
             </Modal.Footer>
@@ -67,20 +89,31 @@ const TableUsers = ({data, showArticles, getApiData}) => {
         }
     }
 
-    const deleteHandle = async (id) => {
+    const deleteHandle = async ({setShowError}, id, password) => {
+        const formData = new FormData();
+
+        formData.append("id", id);
+        formData.append("password", password);
+
         try {
-            const response = await axios.delete("https://localhost:5001/delete_user_by_id", {
-                data: { id },
-                withCredentials: true,
+            const response = await axios.post("https://localhost:5001/delete_user_by_id", formData,
+                { withCredentials: true,
             });
 
+            if (response.status === 401) {
+                throw new Error('Unauthorized');
+            }
+            // Закрываем модальное окно подтверждения удаления
+            handleCloseConfirmationModal();
+            // обновляем содержимое страницы
+            getApiData();
+
         } catch (error) {
+            setShowError(true);
             console.error("Error:", error);
         }
-        // Закрываем модальное окно подтверждения удаления
-        handleCloseConfirmationModal();
-        // обновляем содержимое страницы
-        getApiData();
+
+
     };
 
     // метод проверки наличия пользователя

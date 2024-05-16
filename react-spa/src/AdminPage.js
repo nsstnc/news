@@ -8,8 +8,6 @@ import TableArticles from "./TableArticles";
 import TableUsers from "./TableUsers";
 import ModalForm from "./ModalForm";
 
-// TODO редактирование статей, удаление
-// TODO возможность добавлять новых пользователей
 
 function AdminPage() {
     // массив статей

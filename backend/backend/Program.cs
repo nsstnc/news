@@ -397,23 +397,29 @@ app.MapPost("/add_user", async (HttpContext context, Context db) =>
 });
 
 
-app.MapDelete("/delete_user_by_id", async (HttpContext context, Context db) =>
+app.MapPost("/delete_user_by_id", async (HttpContext context, Context db) =>
 {
-    // „тение данных из тела запроса
-    using (StreamReader reader = new StreamReader(context.Request.Body))
+    var form = context.Request.Form;
+
+
+    int id = int.Parse(form["id"]);
+    string password = form["password"];
+
+    // получаем пользовател€ по id
+    User? user = db.Users.FirstOrDefault(u => u.Id == id);
+
+    // провер€ем совпадение парол€ текущего пользовател€
+    if (PasswordHasher.VerifyPassword(password, user.Password))
     {
-        string requestBody = await reader.ReadToEndAsync();
 
-        app.Logger.LogCritical($"{requestBody}");
-
-        Item item = JsonConvert.DeserializeObject<Item>(requestBody);
-
-        
         // удаление из Ѕƒ по id
-        await db.Users.Where(a => a.Id == item.Id).ExecuteDeleteAsync();
-
-
+        await db.Users.Where(u => u.Id == id).ExecuteDeleteAsync();
         await db.SaveChangesAsync();
+        return Results.Ok();
+    }
+    else
+    {
+        return Results.Unauthorized();
     }
 });
 
