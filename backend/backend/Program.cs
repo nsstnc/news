@@ -175,6 +175,13 @@ app.MapGet("/logout", async (HttpContext context) =>
 
 app.Map("/check_auth", [Authorize] (HttpContext context, Context db) =>
 {
+    // получаем имя пользователя из Claims
+    string userName = context.User.FindFirst(ClaimTypes.Name)?.Value;
+
+    // поиск текущего пользователя
+    User? current_user = db.Users.FirstOrDefault(p => p.Nickname == userName);
+
+    if (current_user == null) return Results.Unauthorized();
     return Results.Ok();
 });
 

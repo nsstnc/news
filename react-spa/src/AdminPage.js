@@ -9,7 +9,7 @@ import TableUsers from "./TableUsers";
 import ModalForm from "./ModalForm";
 
 
-function AdminPage() {
+function AdminPage({checkAuth}) {
     // массив статей
     const [articles, setArticles] = useState([]);
     // массив счетчиков для каждого элемента article
@@ -26,6 +26,9 @@ function AdminPage() {
 
     // функция получения данных с бэка
     const getApiData = async () => {
+        // проверка авторизации
+        await checkAuth();
+
         try {
             const response = await axios.get('https://localhost:5001/admin',{withCredentials: true});
 
@@ -85,7 +88,6 @@ function AdminPage() {
             </Modal>
 
             <div className="admin_header">
-                <h2>Добро пожаловать в админ-панель</h2>
                 <div className="d-grid gap-2 d-md-block">
                     <button onClick={() => setShowArticles(true)} className="btn btn-primary me-md-2"
                             type="button">Статьи

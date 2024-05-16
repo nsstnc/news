@@ -48,7 +48,7 @@ function Admin() {
 
     if (authenticated) {
         return (
-            <AdminPage> </AdminPage>
+            <AdminPage checkAuth={checkAuth}> </AdminPage>
         );
     }
 }
