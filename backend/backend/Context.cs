@@ -23,7 +23,7 @@ namespace backend
                     new Article { Id = 3, Url = "4.jpeg", Tag = "Политика", Title = "Заголовок", Subtitle = "Текст", Updated = DateTime.Now }
             );
             modelBuilder.Entity<User>().HasData(
-                        new User { Id = 1, Nickname = "admin", Password = "admin" }
+                        new User { Id = 1, Nickname = "admin", Password = PasswordHasher.HashPassword("admin") }
 
                 );
         }
