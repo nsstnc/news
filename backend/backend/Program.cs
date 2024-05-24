@@ -374,7 +374,7 @@ app.MapPut("/edit_user_by_id", async (HttpContext context, Context db) =>
         old.Password = PasswordHasher.HashPassword(password);
 
         await db.SaveChangesAsync();
-        return Results.Ok();
+        return Results.Ok(old);
     }
     else
     {
@@ -405,7 +405,7 @@ app.MapPost("/add_user", async (HttpContext context, Context db) =>
 
         await db.Users.AddAsync(user);
         await db.SaveChangesAsync();
-        return Results.Ok();
+        return Results.Ok(user);
     }
     else
     {

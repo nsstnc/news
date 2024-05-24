@@ -5,8 +5,10 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ModalForm from "./ModalForm";
 import Form from "react-bootstrap/Form";
+import {deleteUser} from "./features/users/usersSlice";
+import {useDispatch} from "react-redux";
 
-const DeleteConfirmationModal = ({ show, handleClose, deleteHandle, id }) => {
+const DeleteConfirmationModal = ({show, handleClose, deleteHandle, id}) => {
     const [password, setPassword] = useState("");
     // переменная для показа модального окна ошибки
     const [showError, setShowError] = useState(false);
@@ -23,13 +25,14 @@ const DeleteConfirmationModal = ({ show, handleClose, deleteHandle, id }) => {
                 <Form>
                     <Form.Group
                         className="mb-3">
-                        <Form.Control type="password" placeholder="Пароль удаляемого пользователя" onChange={(e) => setPassword(e.target.value)}/>
+                        <Form.Control type="password" placeholder="Пароль удаляемого пользователя"
+                                      onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Group>
                 </Form>
                 <a style={{display: showError ? 'block' : 'none', color: 'red'}}>Неверный пароль</a>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={()=> {
+                <Button variant="secondary" onClick={() => {
                     handleClose();
                     setShowError(false);
                 }}>
@@ -47,8 +50,8 @@ const DeleteConfirmationModal = ({ show, handleClose, deleteHandle, id }) => {
 };
 
 
-
 const TableUsers = ({data, showArticles, getApiData}) => {
+    const dispatch = useDispatch();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -75,7 +78,7 @@ const TableUsers = ({data, showArticles, getApiData}) => {
         setItemsPerPage(value);
     };
 
-    const getDataById = async (id) =>  {
+    const getDataById = async (id) => {
         try {
             const response = await axios.post('https://localhost:5001/get_user_by_id', {
                 id
@@ -96,16 +99,15 @@ const TableUsers = ({data, showArticles, getApiData}) => {
         formData.append("password", password);
 
         try {
-            const response = await axios.post("https://localhost:5001/delete_user_by_id", formData,
-                { withCredentials: true,
-            });
-
-            if (response.status === 401) {
+            const response = await dispatch(deleteUser(formData));
+            if (response.type === 'users/deleteUser/rejected') {
                 throw new Error('Unauthorized');
             }
+
+
             // Закрываем модальное окно подтверждения удаления
             handleCloseConfirmationModal();
-            // обновляем содержимое страницы
+            // проверяем авторизацию
             getApiData();
 
         } catch (error) {
@@ -117,7 +119,7 @@ const TableUsers = ({data, showArticles, getApiData}) => {
     };
 
     // метод проверки наличия пользователя
-    const checkUserExists = async (nickname, id=0) => {
+    const checkUserExists = async (nickname, id = 0) => {
         return data.some(user => user.nickname === nickname && user.id !== id);
     };
 
@@ -139,12 +141,11 @@ const TableUsers = ({data, showArticles, getApiData}) => {
     const handleShow = () => setShow(true);
     const [adding, setAdding] = useState(true);
     const [currentId, setCurrentId] = useState(1);
-    const [item, setItem] = useState( null);
+    const [item, setItem] = useState(null);
 
     useEffect(() => {
         getDataById(currentId);
     }, [currentId]);
-
 
 
     return (
@@ -155,10 +156,10 @@ const TableUsers = ({data, showArticles, getApiData}) => {
                 deleteHandle={deleteHandle}
                 id={currentId}
             />
-            <ModalForm show={show} handleClose={handleClose} isAdding={adding} showArticles={showArticles} getApiData={getApiData} data={item}
-            checkUserExists={checkUserExists}
+            <ModalForm show={show} handleClose={handleClose} isAdding={adding} showArticles={showArticles}
+                       getApiData={getApiData} data={item}
+                       checkUserExists={checkUserExists}
             ></ModalForm>
-
 
 
             <caption>Пользователи</caption>
@@ -218,11 +219,13 @@ const TableUsers = ({data, showArticles, getApiData}) => {
                                 setAdding(false);
                                 setCurrentId(user.id);
                             }} type="button" className="btn btn-outline-secondary"
-                                    style={{marginRight: "5px"}}>Изменить</button>
+                                    style={{marginRight: "5px"}}>Изменить
+                            </button>
                             <button onClick={() => {
                                 handleDeleteConfirmation(user.id);
                                 setCurrentId(user.id);
-                            }} type="button" className="btn btn-outline-danger">Удалить</button>
+                            }} type="button" className="btn btn-outline-danger">Удалить
+                            </button>
                         </td>
                     </tr>
                 ))}

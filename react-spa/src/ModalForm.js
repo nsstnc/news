@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {addArticle, updateArticle} from './features/articles/articleSlice';
+import {addUser, updateUser} from './features/users/usersSlice';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -82,10 +83,8 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data,
                 formData.append("old_password", old_password);
 
                 try {
-                    const response = await axios.put("https://localhost:5001/edit_user_by_id", formData, {
-                        withCredentials: true,
-                    });
-                    if (response.status === 401) {
+                    const response = await dispatch(updateUser(formData));
+                    if (response.type === 'users/updateUser/rejected') {
                         throw new Error('Unauthorized');
                     }
 
@@ -95,7 +94,7 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data,
                     setNickname("");
                     setPassword("");
                     setOldPassword("");
-                    // обновляем содержимое страницы
+                    // проверяем авторизацию
                     getApiData();
 
                 } catch (error) {
@@ -126,15 +125,13 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data,
                 formData.append("current_password", current_password);
 
                 try {
-                    const response = await axios.post("https://localhost:5001/add_user", formData, {
-                        withCredentials: true,
-                    });
-                    if (response.status === 401) {
-                        throw new Error('Unauthorized');
-                    }
+                    const response = await dispatch(addUser(formData));
+                    console.log(response)
+                    if (response.type === 'users/addUser/rejected') throw new Error('Unauthorized')
+
                     // закрываем модальное окно
                     handleClose();
-                    // обновляем содержимое страницы
+                    // проверяем авторизацию
                     getApiData();
                 } catch (error) {
                     setMessage("Неверный пароль");

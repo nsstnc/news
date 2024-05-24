@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "aGXDtPIUoTKXZBLj16hPTcdiuTOqNxIwphCFL01Yp4g=",
+  "Hash": "jEwBmqyO2Q+q/pnn06o3sKoCTgo1tYMEPp6EUOYuS0E=",
   "Source": "backend",
   "BasePath": "_content/backend",
   "Mode": "Default",
@@ -302,25 +302,6 @@
       "OriginalItemSpec": "wwwroot\\images\\8bade1dc-09cb-4a8f-a9a7-9b1fa96f6410_scale_1200.jpeg"
     },
     {
-      "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\d1bd44f0-38e8-40dd-ab1c-c0d4b9b3de20_2.png",
-      "SourceId": "backend",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\",
-      "BasePath": "_content/backend",
-      "RelativePath": "images/d1bd44f0-38e8-40dd-ab1c-c0d4b9b3de20_2.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\d1bd44f0-38e8-40dd-ab1c-c0d4b9b3de20_2.png"
-    },
-    {
       "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\desktop.ini",
       "SourceId": "backend",
       "SourceType": "Discovered",
@@ -376,25 +357,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\ebb9e7f9-87c7-4337-8cfc-9397d384eab7_4.jpeg"
-    },
-    {
-      "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\ebf9d29e-3cce-454c-a23b-bbdbc06d930a_2.png",
-      "SourceId": "backend",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\",
-      "BasePath": "_content/backend",
-      "RelativePath": "images/ebf9d29e-3cce-454c-a23b-bbdbc06d930a_2.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\ebf9d29e-3cce-454c-a23b-bbdbc06d930a_2.png"
     },
     {
       "Identity": "D:\\Desktop\\учеба\\4 семестр\\Веб-разработка\\last-project\\news\\backend\\backend\\wwwroot\\images\\f3b3240e-dcd5-4a3a-b56f-83ba5881a1ea_5.jpg",
