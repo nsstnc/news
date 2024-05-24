@@ -2,22 +2,26 @@ import './App.css';
 import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Routes, Route, Link, Navigate} from "react-router-dom";
 import axios from 'axios';
+import { Provider } from 'react-redux';
+import store from './store';
 import MainPage from './MainPage';
 import LoginPage from "./LoginPage";
 import AdminPage from "./AdminPage";
 
 function App() {
 
-    return (
-        <Router>
-            <div>
-                <Routes>
-                    <Route path="/" element={<Main/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/admin" element={<Admin/>}/>
-                </Routes>
-            </div>
-        </Router>
+   return (
+        <Provider store={store}>
+            <Router>
+                <div>
+                    <Routes>
+                        <Route path="/" element={<Main />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/admin" element={<Admin />} />
+                    </Routes>
+                </div>
+            </Router>
+        </Provider>
     );
 }
 
@@ -104,7 +108,7 @@ function Main() {
 
     return (
         <div class="container">
-            <MainPage articles={articles}> </MainPage>
+            <MainPage> </MainPage>
         </div>
 
 
