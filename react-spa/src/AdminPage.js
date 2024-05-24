@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Modal from 'react-bootstrap/Modal';
 import './AdminPage.css';
 
-
+import {useSelector, useDispatch} from 'react-redux';
 import axios from "axios";
 import TableArticles from "./TableArticles";
 import TableUsers from "./TableUsers";
@@ -10,10 +10,17 @@ import ModalForm from "./ModalForm";
 
 
 function AdminPage({checkAuth}) {
+    const dispatch = useDispatch();
+    const articles = useSelector((state) => state.articles.items);
+    const articleStatus = useSelector((state) => state.articles.status);
+    const users = useSelector((state) => state.users.items);
+    const userStatus = useSelector((state) => state.users.status);
+
+
     // массив статей
-    const [articles, setArticles] = useState([]);
+    //const [articles, setArticles] = useState([]);
     // массив счетчиков для каждого элемента article
-    const [users, setUsers] = useState([]);
+    //const [users, setUsers] = useState([]);
     // состояние для отображения таблицы статей (true) или пользователей (false)
     const [showArticles, setShowArticles] = useState(true);
     // состояние для отображения всплывающего окна с текстом
@@ -22,24 +29,24 @@ function AdminPage({checkAuth}) {
     // состояние для текущей статьи в модальном окне
     const [showing, setShowing] = useState([]);
 
-
+    useEffect(() => {
+        getApiData()
+    }, [articleStatus, userStatus, dispatch]);
 
     // функция получения данных с бэка
     const getApiData = async () => {
         // проверка авторизации
         await checkAuth();
 
-        try {
-            const response = await axios.get('https://localhost:5001/admin',{withCredentials: true});
 
-
-            // обновляем массив статей
-            setArticles(response.data.articles);
-            // обновляем массив пользователей
-            setUsers(response.data.users);
-        } catch (error) {
-            console.error('Ошибка при получении данных с сервера:', error);
+        if (articleStatus === 'idle') {
+            dispatch(fetchArticles());
         }
+        if (userStatus === 'idle') {
+            dispatch(fetchUsers());
+        }
+
+
     };
 
     useEffect(() => {
@@ -60,27 +67,20 @@ function AdminPage({checkAuth}) {
     };
 
 
-
-
-
     return (
         <div>
-
-
-
 
 
             {/*модальное окно предпросмотра*/}
             <Modal show={showSubtitle} onHide={() => setShowSubtitle(false)}
                    scrollable
-                   aria-labelledby="contained-modal-title-vcenter"
                    centered
                    dialogClassName="modal-30w"
                    aria-labelledby="example-custom-modal-styling-title">
                 <Modal.Header closeButton>
                     <Modal.Title>{showing.id}. {showing.title}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body style={{ textAlign: "justify" }}>
+                <Modal.Body style={{textAlign: "justify"}}>
                     <img className="article-img" src={"https://localhost:5001/images/" + showing.url}/>
                     {/* Содержимое подзаголовка */}
                     {showing.subtitle}
@@ -96,7 +96,8 @@ function AdminPage({checkAuth}) {
                             type="button">Пользователи
                     </button>
                     <button onClick={() => logOut()}
-                            type="button" className="btn btn-outline-danger" style={{float: "right"}}>Выйти</button>
+                            type="button" className="btn btn-outline-danger" style={{float: "right"}}>Выйти
+                    </button>
                 </div>
 
             </div>
@@ -104,7 +105,8 @@ function AdminPage({checkAuth}) {
 
             <div className="admin_body">
                 {showArticles ? (
-                    <TableArticles data={articles} setShowing={setShowing} setShowSubtitle={setShowSubtitle} showArticles={showArticles} getApiData={getApiData}></TableArticles>
+                    <TableArticles data={articles} setShowing={setShowing} setShowSubtitle={setShowSubtitle}
+                                   showArticles={showArticles} getApiData={getApiData}></TableArticles>
                 ) : (
                     <TableUsers data={users} showArticles={showArticles} getApiData={getApiData}></TableUsers>
                 )}

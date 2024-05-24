@@ -200,6 +200,11 @@ app.Map("/admin", [Authorize] (HttpContext context, Context db) =>
     return data;
 });
 
+app.Map("/admin/users", [Authorize] (HttpContext context, Context db) =>
+{
+    return db.Users.ToList(); 
+});
+
 app.Map("/get_article_by_id", async (HttpContext context, Context db) =>
 {
     // Чтение данных из тела запроса
