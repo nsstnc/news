@@ -10,7 +10,7 @@ import TableUsers from "./TableUsers";
 import ModalForm from "./ModalForm";
 
 
-function AdminPage({checkAuth}) {
+function AdminPage({checkAuth, userName}) {
     const dispatch = useDispatch();
     const articles = useSelector((state) => state.articles.items);
     const articleStatus = useSelector((state) => state.articles.status);
@@ -18,10 +18,6 @@ function AdminPage({checkAuth}) {
     const userStatus = useSelector((state) => state.users.status);
 
 
-    // массив статей
-    //const [articles, setArticles] = useState([]);
-    // массив счетчиков для каждого элемента article
-    //const [users, setUsers] = useState([]);
     // состояние для отображения таблицы статей (true) или пользователей (false)
     const [showArticles, setShowArticles] = useState(true);
     // состояние для отображения всплывающего окна с текстом
@@ -86,9 +82,14 @@ function AdminPage({checkAuth}) {
                     <button onClick={() => setShowArticles(false)} className="btn btn-primary"
                             type="button">Пользователи
                     </button>
+                    <caption style={{float: "right", marginLeft: "10px", marginTop: "5px"}}>{userName}</caption>
+
                     <button onClick={() => logOut()}
-                            type="button" className="btn btn-outline-danger" style={{float: "right"}}>Выйти
+                            type="button" className="btn btn-outline-danger"
+                            style={{float: "right"}}>Выйти
                     </button>
+
+
                 </div>
 
             </div>

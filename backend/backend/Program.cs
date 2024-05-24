@@ -184,7 +184,7 @@ app.Map("/check_auth", [Authorize] (HttpContext context, Context db) =>
     User? current_user = db.Users.FirstOrDefault(p => p.Nickname == userName);
 
     if (current_user == null) return Results.Unauthorized();
-    return Results.Ok();
+    return Results.Ok(userName);
 });
 
 

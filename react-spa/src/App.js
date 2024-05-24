@@ -27,7 +27,7 @@ function App() {
 
 function Admin() {
     const [authenticated, setAuthenticated] = useState(false);
-
+    const [userName, setUserName] = useState("");
     const checkAuth = async () => {
         try {
             const response = await axios.get('https://localhost:5001/check_auth', {
@@ -36,6 +36,7 @@ function Admin() {
             if (response.status === 200) {
                 console.log('Успешная аутентификация!');
                 setAuthenticated(true);
+                setUserName(response.data);
             } else {
                 console.log(response);
                 throw new Error('Ошибка');
@@ -52,7 +53,7 @@ function Admin() {
 
     if (authenticated) {
         return (
-            <AdminPage checkAuth={checkAuth}> </AdminPage>
+            <AdminPage checkAuth={checkAuth} userName={userName}> </AdminPage>
         );
     }
 }
@@ -93,17 +94,9 @@ function Main() {
     }, []);
 
 
-    console.log(counts)
 
 
-    // функция обновления счетчиков
-    const incrementCounts = (index) => {
-        setCounts(prevCounts => {
-            const newCounts = [...prevCounts];
-            newCounts[index]++;
-            return newCounts;
-        });
-    };
+
 
 
     return (
