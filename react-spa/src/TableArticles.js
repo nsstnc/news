@@ -6,6 +6,8 @@ import ModalForm from "./ModalForm";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
+import { useDispatch } from 'react-redux';
+import {deleteArticle} from './features/articles/articleSlice';
 
 const DeleteConfirmationModal = ({ show, handleClose, deleteHandle, id }) => {
     return (
@@ -28,6 +30,8 @@ const DeleteConfirmationModal = ({ show, handleClose, deleteHandle, id }) => {
 
 
 const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiData}) => {
+    const dispatch = useDispatch();
+
     // различные состояния для пагинации
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -68,17 +72,13 @@ const TableArticles = ({data, setShowing, setShowSubtitle, showArticles, getApiD
 
     const deleteHandle = async (id) => {
         try {
-            const response = await axios.delete("https://localhost:5001/delete_article_by_id", {
-                data: { id },
-                withCredentials: true,
-            });
+            await dispatch(deleteArticle(id));
 
         } catch (error) {
             console.error("Error:", error);
         }
         // Закрываем модальное окно подтверждения удаления
         handleCloseConfirmationModal();
-        // обновляем содержимое страницы
         getApiData();
     };
 

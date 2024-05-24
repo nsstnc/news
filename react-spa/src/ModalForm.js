@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
+import {addArticle, updateArticle} from './features/articles/articleSlice';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from "axios";
 
 const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data, checkUserExists}) => {
+    const dispatch = useDispatch();
     {/*модальное окно формы изменения/добавления записи*/}
     const [file, setFile] = useState(null);
     const [tag, setTag] = useState("");
@@ -27,17 +30,13 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data,
         formData.append("subtitle", subtitle);
 
         try {
-            const response = await axios.post("https://localhost:5001/upload", formData, {
-                withCredentials: true,
-            });
-
+            await dispatch(addArticle(formData));
         } catch (error) {
             console.error("Error:", error);
         }
         // закрываем модальное окно
         handleClose();
-        // // сбрасываем состояние формы
-        // обновляем содержимое страницы
+
         getApiData();
     };
 
@@ -52,9 +51,7 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data,
         formData.append("subtitle", subtitle);
 
         try {
-            const response = await axios.put("https://localhost:5001/edit_article_by_id", formData, {
-                withCredentials: true,
-            });
+            await dispatch(updateArticle(formData))
 
         } catch (error) {
             console.error("Error:", error);
@@ -66,7 +63,7 @@ const ModalForm = ({show, handleClose, isAdding, showArticles, getApiData, data,
         setTag("");
         setTitle("");
         setSubtitle("");
-        // обновляем содержимое страницы
+
         getApiData();
     };
 

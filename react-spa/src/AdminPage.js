@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import Modal from 'react-bootstrap/Modal';
 import './AdminPage.css';
-
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchArticles} from './features/articles/articleSlice';
+import {fetchUsers} from './features/users/usersSlice';
 import axios from "axios";
 import TableArticles from "./TableArticles";
 import TableUsers from "./TableUsers";
@@ -30,15 +31,6 @@ function AdminPage({checkAuth}) {
     const [showing, setShowing] = useState([]);
 
     useEffect(() => {
-        getApiData()
-    }, [articleStatus, userStatus, dispatch]);
-
-    // функция получения данных с бэка
-    const getApiData = async () => {
-        // проверка авторизации
-        await checkAuth();
-
-
         if (articleStatus === 'idle') {
             dispatch(fetchArticles());
         }
@@ -46,12 +38,11 @@ function AdminPage({checkAuth}) {
             dispatch(fetchUsers());
         }
 
+    }, [articleStatus, userStatus, dispatch]);
 
+    const getApiData = async () => {
+        await checkAuth();
     };
-
-    useEffect(() => {
-        getApiData();
-    }, []);
 
     // функция выхода пользователя
     const logOut = async () => {

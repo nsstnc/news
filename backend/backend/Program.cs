@@ -11,6 +11,7 @@ using System.Collections.Immutable;
 using System.Security.Cryptography;
 using Microsoft.Extensions.FileProviders;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 var builder = WebApplication.CreateBuilder(args);
 Role admin = new Role("admin");
@@ -110,6 +111,7 @@ app.MapPost("/upload", async (HttpContext context, Context db) =>
     await db.Articles.AddAsync(article);
     await db.SaveChangesAsync();
 
+    return Results.Ok(article);
 });
 
 
@@ -202,7 +204,7 @@ app.Map("/admin", [Authorize] (HttpContext context, Context db) =>
 
 app.Map("/admin/users", [Authorize] (HttpContext context, Context db) =>
 {
-    return db.Users.ToList(); 
+    return db.Users.ToList();
 });
 
 app.Map("/get_article_by_id", async (HttpContext context, Context db) =>
@@ -264,9 +266,10 @@ app.MapDelete("/delete_article_by_id", async (HttpContext context, Context db) =
 
         app.Logger.LogCritical($"{requestBody}");
 
-        Item item = JsonConvert.DeserializeObject<Item>(requestBody);
 
-        var article = await db.Articles.FirstOrDefaultAsync(a => a.Id == item.Id);
+        int id = int.Parse(requestBody);
+
+        var article = await db.Articles.FirstOrDefaultAsync(a => a.Id == id);
         var filename = article?.Url;
 
         // Удаляем старое изображение
@@ -282,7 +285,7 @@ app.MapDelete("/delete_article_by_id", async (HttpContext context, Context db) =
         }
 
         // удаление из БД по id
-        await db.Articles.Where(a => a.Id == item.Id).ExecuteDeleteAsync();
+        await db.Articles.Where(a => a.Id == id).ExecuteDeleteAsync();
 
 
         await db.SaveChangesAsync();
@@ -350,6 +353,8 @@ app.MapPut("/edit_article_by_id", async (HttpContext context, Context db) =>
 
 
     await db.SaveChangesAsync();
+
+    return Results.Ok(old);
 });
 
 
