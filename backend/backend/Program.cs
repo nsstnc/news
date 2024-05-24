@@ -19,7 +19,7 @@ Role admin = new Role("admin");
 builder.Services.AddCors();
 
 // строка подключения к базе данных
-string connection = "Server=(localdb)\\mssqllocaldb;Database=news_app4;Trusted_Connection=True;";
+string connection = "Server=(localdb)\\mssqllocaldb;Database=news_app;Trusted_Connection=True;";
 
 // добавляем контекст Context в качестве сервиса в приложение
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connection));
