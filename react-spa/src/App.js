@@ -67,38 +67,6 @@ function Login() {
 
 function Main() {
 
-    // массив статей
-    const [articles, setArticles] = useState([]);
-    // массив счетчиков для каждого элемента article
-    const [counts, setCounts] = useState([]);
-
-
-    // функция получения данных с бэка
-    const getApiData = async () => {
-        try {
-            const response = await axios.get('https://localhost:5001/articles');
-            // обновляем массив статей
-            setArticles(response.data);
-            // обновляем массив счетчиков
-            setCounts(Array(response.data.length).fill(0));
-        } catch (error) {
-            console.error('Ошибка при получении данных с сервера:', error);
-        }
-    };
-
-
-
-
-    useEffect(() => {
-        getApiData();
-    }, []);
-
-
-
-
-
-
-
     return (
         <div class="container">
             <MainPage> </MainPage>
